@@ -61,8 +61,8 @@
             border-radius: 4px;
         }
         
-        /* --- CSS MODAL --- */
-        .modal-overlay {
+        /* CSS Modal Kustom */
+        #custom-modal-overlay {
             display: none; /* Diubah ke flex oleh JS */
             position: fixed;
             inset: 0;
@@ -70,60 +70,13 @@
             align-items: center;
             justify-content: center;
             z-index: 50;
-            overflow-y: auto;
-            padding: 1rem;
         }
-        .modal-overlay.flex {
+        #custom-modal-overlay.flex {
             display: flex;
-        }
-        /* --- CSS GAMBAR DI CHAPTER --- */
-        .chapter-image-container {
-            position: relative;
-            margin: 1rem 0;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .chapter-image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .chapter-image-toolbar {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: flex;
-            gap: 8px;
-            background-color: rgba(0,0,0,0.5);
-            border-radius: 6px;
-            padding: 4px;
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out;
-        }
-        .chapter-image-container:hover .chapter-image-toolbar {
-            opacity: 1;
-        }
-        .chapter-image-toolbar button {
-            background-color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .chapter-image-toolbar button:hover {
-            background-color: #f3f4f6;
-        }
-        .chapter-image-toolbar button svg {
-            width: 16px;
-            height: 16px;
         }
     </style>
 </head>
-<body class="antiasaed text-gray-800">
+<body class="antialiased text-gray-800">
 
     <div id="app" class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
         
@@ -191,6 +144,7 @@
                             <button id="generate-intro-btn" class="w-full bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg hover:bg-gray-300 transition-all duration-200 ease-in-out flex items-center justify-center">Buat Pendahuluan</button>
                             <button id="generate-titles-btn" class="w-full bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg hover:bg-gray-300 transition-all duration-200 ease-in-out flex items-center justify-center">Buat Judul Bab</button>
                                
+                               <!-- --- PERUBAHAN DIMULAI --- -->
                                <div class="grid grid-cols-2 gap-2 pt-2 border-t mt-3">
                                 <button id="add-manual-chapter-btn" class="w-full bg-green-100 text-green-800 font-semibold py-2 px-3 rounded-lg hover:bg-green-200 transition-all duration-200 ease-in-out flex items-center justify-center gap-1 text-sm" title="Tambah satu bab kosong di akhir">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -205,6 +159,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                 <span>Hapus Bab Terakhir</span>
                             </button>
+                            <!-- --- AKHIR PERUBAHAN --- -->
 
                             <button id="generate-summary-btn" class="w-full bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg hover:bg-gray-300 transition-all duration-200 ease-in-out flex items-center justify-center">Buat Ringkasan</button>
                             <button id="generate-conclusion-btn" class="w-full bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg hover:bg-gray-300 transition-all duration-200 ease-in-out flex items-center justify-center">Buat Penutup</button>
@@ -267,8 +222,8 @@
         <p>© 2025. Ebook Master Maker v2.1 by Joze Rizal</p>
     </footer>
 
-    <!-- HTML Modal Kustom (Alert/Confirm) -->
-    <div id="custom-modal-overlay" class="modal-overlay">
+    <!-- HTML Modal Kustom -->
+    <div id="custom-modal-overlay">
         <div id="custom-modal" class="bg-white p-6 rounded-lg shadow-xl w-11/12 max-w-md">
             <p id="custom-modal-message" class="text-gray-700 mb-4">This is a message.</p>
             <div id="custom-modal-buttons" class="flex justify-end gap-3">
@@ -278,82 +233,9 @@
         </div>
     </div>
 
-    <!-- HTML Modal Generator Gambar -->
-    <div id="image-gen-modal-overlay" class="modal-overlay">
-        <div class="bg-white p-6 rounded-lg shadow-xl w-11/12 max-w-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-bold text-gray-900">Buat Gambar untuk Bab</h3>
-                <button id="image-gen-modal-btn-close" class="text-gray-500 hover:text-gray-800">&times;</button>
-            </div>
-            
-            <div class="space-y-4">
-                <div>
-                    <label for="image-gen-prompt" class="font-semibold block mb-2">Prompt Gambar (Otomatis dari Bab):</label>
-                    <textarea id="image-gen-prompt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" rows="6" placeholder="Jelaskan gambar yang ingin Anda buat..."></textarea>
-                </div>
-
-                <div>
-                    <label class="font-semibold block mb-2">Gaya Gambar:</label>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        <label class="border border-gray-300 rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="image-style" value="ilustrasi" checked class="text-indigo-600 focus:ring-indigo-500">
-                            <span>Ilustrasi</span>
-                        </label>
-                        <label class="border border-gray-300 rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="image-style" value="foto" class="text-indigo-600 focus:ring-indigo-500">
-                            <span>Foto Realistis</span>
-                        </label>
-                        <label class="border border-gray-300 rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="image-style" value="karikatur" class="text-indigo-600 focus:ring-indigo-500">
-                            <span>Karikatur</span>
-                        </label>
-                        <label class="border border-gray-300 rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="image-style" value="seni digital" class="text-indigo-600 focus:ring-indigo-500">
-                            <span>Seni Digital</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="font-semibold block mb-2">Posisi Gambar:</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <label class="border border-gray-300 rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="image-position" value="top" checked class="text-indigo-600 focus:ring-indigo-500">
-                            <span>Atas Bab</span>
-                        </label>
-                        <label class="border border-gray-300 rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:bg-gray-50">
-                            <input type="radio" name="image-position" value="bottom" class="text-indigo-600 focus:ring-indigo-500">
-                            <span>Bawah Bab</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="image-gen-preview-container" class="hidden text-center">
-                    <label class="font-semibold block mb-2">Hasil Gambar:</label>
-                    <div id="image-gen-loader" class="flex items-center justify-center p-10">
-                        <div class="loader"></div>
-                    </div>
-                    <img id="image-gen-preview" src="" alt="Hasil Gambar" class="hidden max-w-full mx-auto rounded-lg border border-gray-200" />
-                    <p id="image-gen-error" class="text-red-500 mt-2"></p>
-                </div>
-
-                <div class="flex justify-end gap-3 pt-4 border-t">
-                    <button id="image-gen-btn-generate" class="bg-indigo-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-all">
-                        Buat Gambar
-                    </button>
-                    <button id="image-gen-btn-insert" class="bg-green-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-green-700 transition-all hidden" disabled>
-                        Sisipkan Gambar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <script type="module">
         const { jsPDF } = window.jspdf;
 
-        // --- Variabel Global ---
         const problemInput = document.getElementById('problem-input');
         const authorInput = document.getElementById('author-input');
         const styleSelect = document.getElementById('style-select');
@@ -368,8 +250,10 @@
         const generateTitlesBtn = document.getElementById('generate-titles-btn');
         const generateSummaryBtn = document.getElementById('generate-summary-btn');
         const generateConclusionBtn = document.getElementById('generate-conclusion-btn');
+        // --- PERUBAHAN DIMULAI ---
         const addManualChapterBtn = document.getElementById('add-manual-chapter-btn');
         const addAiChapterBtn = document.getElementById('add-ai-chapter-btn');
+        // --- AKHIR PERUBAHAN ---
         const removeChapterBtn = document.getElementById('remove-chapter-btn');
         const resetBtn = document.getElementById('reset-btn');
         
@@ -394,20 +278,6 @@
         const modalBtnConfirm = document.getElementById('custom-modal-btn-confirm');
         const modalBtnCancel = document.getElementById('custom-modal-btn-cancel');
 
-        // Elemen Modal Generator Gambar
-        const imgGenModalOverlay = document.getElementById('image-gen-modal-overlay');
-        const imgGenBtnClose = document.getElementById('image-gen-modal-btn-close');
-        const imgGenPrompt = document.getElementById('image-gen-prompt');
-        const imgGenPreviewContainer = document.getElementById('image-gen-preview-container');
-        const imgGenLoader = document.getElementById('image-gen-loader');
-        const imgGenPreview = document.getElementById('image-gen-preview');
-        const imgGenError = document.getElementById('image-gen-error');
-        const imgGenBtnGenerate = document.getElementById('image-gen-btn-generate');
-        const imgGenBtnInsert = document.getElementById('image-gen-btn-insert');
-        
-        let currentImageGenChapterIndex = -1;
-        let generatedImageData = null; // Menyimpan base64 data
-
         const defaultState = {
             problem: '',
             style: 'profesional',
@@ -415,7 +285,7 @@
             authorText: '',
             title: '',
             introduction: '',
-            chapters: [], // { title: '', content: '', loading: false, images: [] }
+            chapters: [], // { title: '', content: '', loading: false }
             summary: '',
             conclusion: '',
             author: '',
@@ -423,8 +293,6 @@
 
         let ebookState = { ...defaultState };
         
-        // --- Fungsi Utama (State, Modal, API) ---
-
         function saveState() {
             ebookState.problem = problemInput.value;
             ebookState.style = styleSelect.value;
@@ -436,12 +304,7 @@
         function loadState() {
             const savedState = localStorage.getItem('ebookGeneratorState');
             if (savedState) {
-                // Migrasi state lama (jika tidak ada array images)
-                let loadedState = JSON.parse(savedState);
-                if (loadedState.chapters && loadedState.chapters.length > 0 && !loadedState.chapters[0].images) {
-                    loadedState.chapters.forEach(ch => ch.images = []);
-                }
-                ebookState = { ...defaultState, ...loadedState };
+                ebookState = JSON.parse(savedState);
                 
                 problemInput.value = ebookState.problem || '';
                 styleSelect.value = ebookState.style || 'profesional';
@@ -467,6 +330,7 @@
             }
         }
 
+        // --- Fungsi Modal Kustom ---
         function customAlert(message) {
             modalMessage.textContent = message;
             modalBtnConfirm.textContent = 'OK';
@@ -491,7 +355,7 @@
                 modalOverlay.classList.remove('flex');
                 modalBtnConfirm.removeEventListener('click', confirmListener);
                 modalBtnCancel.removeEventListener('click', cancelListener);
-                onConfirm();
+                onConfirm(); // Panggil callback hanya jika dikonfirmasi
             };
             
             const cancelListener = () => {
@@ -503,6 +367,8 @@
             modalBtnConfirm.addEventListener('click', confirmListener);
             modalBtnCancel.addEventListener('click', cancelListener);
         }
+        // --- Akhir Fungsi Modal Kustom ---
+
 
         function getSystemInstruction(style) {
             let baseInstruction = "Anda adalah seorang penulis ahli dan mentor yang handal dalam memecahkan masalah. Tugas Anda adalah membuat konten ebook yang sangat praktis, actionable, dan mudah dipahami. Hindari teori yang bertele-tele. Fokus pada langkah-langkah konkret, contoh nyata, dan tips yang bisa langsung diterapkan oleh pembaca. Gunakan bahasa Indonesia yang jelas, positif, dan memotivasi. Format output harus rapi. Gunakan paragraf-paragraf yang pendek dan jelas. Pastikan selalu ada baris kosong (line break) di antara setiap paragraf untuk kemudahan membaca.";
@@ -523,8 +389,7 @@
                 customAlert('Harap masukkan Google AI API Key Anda di Langkah 1.');
                 return isJson ? null : `<p class="text-red-500">API Key dibutuhkan.</p>`;
             }
-            // Model gemini-2.5-flash-preview-05-20 sudah tidak ada, ganti ke model yang lebih baru
-            const API_URL_GENERATE = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const API_URL_GENERATE = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             
             const selectedStyle = styleSelect.value;
             const dynamicSystemInstruction = getSystemInstruction(selectedStyle);
@@ -564,44 +429,6 @@
             }
         }
         
-        async function callImageGenAPI(prompt, retries = 3, delay = 1000) {
-            const apiKey = ""; // Disediakan oleh Canvas
-            const API_URL_IMAGE = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-
-            const payload = { 
-                instances: [{ prompt: prompt }],
-                parameters: { "sampleCount": 1 }
-            };
-
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(API_URL_IMAGE, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    
-                    const result = await response.json();
-                    if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                        return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                    } else {
-                        throw new Error("Invalid image API response structure");
-                    }
-                } catch (error) {
-                    console.error(`Image API call failed. Attempt ${i + 1} of ${retries}. Error:`, error);
-                    if (i < retries - 1) {
-                        await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
-                    } else {
-                        return null; // Gagal setelah semua percobaan
-                    }
-                }
-            }
-        }
-
-        // --- Fungsi Helper UI ---
-
         function showLoader(element) {
             element.innerHTML = `<div class="flex items-center justify-center p-4"><div class="loader"></div></div>`;
         }
@@ -629,18 +456,13 @@
                 .join('');
         }
 
-        function stripHtml(html) {
-            if (!html) return "";
-            let doc = new DOMParser().parseFromString(html, 'text/html');
-            return doc.body.textContent || "";
-        }
-
         function copyToClipboard(text, message = "Teks berhasil disalin!") {
             if (!text) return;
+            // Menggunakan document.execCommand sebagai fallback jika navigator.clipboard gagal di iframe
             try {
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
-                textArea.style.position = "fixed";
+                textArea.style.position = "fixed";  // Jauhkan dari pandangan
                 textArea.style.opacity = "0";
                 document.body.appendChild(textArea);
                 textArea.focus();
@@ -658,7 +480,7 @@
         
         function createActionButtons(section, index = -1) {
             const container = document.createElement('div');
-            container.className = 'absolute top-2 right-2 flex gap-1.5 action-buttons'; // Mengurangi gap
+            container.className = 'absolute top-2 right-2 flex gap-2 action-buttons';
             
             const copyButton = document.createElement('button');
             copyButton.className = 'bg-gray-200 text-gray-700 font-semibold py-1 px-3 rounded-lg hover:bg-gray-300 transition-all duration-200 ease-in-out flex items-center justify-center gap-1 text-sm';
@@ -692,17 +514,6 @@
             };
 
             if (section === 'chapter') {
-                // Tombol Buat Gambar (BARU)
-                const imageButton = document.createElement('button');
-                imageButton.className = 'bg-blue-100 text-blue-700 font-semibold py-1 px-3 rounded-lg hover:bg-blue-200 transition-all duration-200 ease-in-out flex items-center justify-center gap-1 text-sm';
-                imageButton.title = 'Buat Gambar untuk Bab Ini';
-                imageButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`;
-                imageButton.onclick = () => {
-                    openImageModal(index);
-                };
-                container.appendChild(imageButton);
-
-                // Tombol Hapus Bab
                 const deleteButton = document.createElement('button');
                 deleteButton.className = 'bg-red-100 text-red-700 font-semibold py-1 px-3 rounded-lg hover:bg-red-200 transition-all duration-200 ease-in-out flex items-center justify-center gap-1 text-sm';
                 deleteButton.title = 'Hapus Bab Ini';
@@ -717,8 +528,6 @@
             container.appendChild(regenButton);
             return container;
         }
-
-        // --- Fungsi Generator Konten ---
 
         async function generateTitle(problem) {
             updateUIState();
@@ -749,7 +558,7 @@
             const prompt = `Buatkan ${count} judul bab yang unik dan berbeda untuk ebook yang membahas masalah: "${problem}". Judul harus fokus pada aspek solusi yang praktis. Format sebagai array JSON berisi string. Contoh: ["Judul Bab 1", "Judul Bab 2"]`;
             const titles = await callGeminiAPI(prompt, true);
             if (titles && Array.isArray(titles)) {
-                ebookState.chapters = titles.map(title => ({ title: title, content: '', loading: false, images: [] })); // Tambahkan array images
+                ebookState.chapters = titles.map(title => ({ title: title, content: '', loading: false }));
             }
             renderChaptersUI();
             updateChapterButtons();
@@ -757,11 +566,17 @@
         }
         
         function updateChapterButtons() {
-            addManualChapterBtn.disabled = false;
-            addAiChapterBtn.disabled = false;
+            // --- PERUBAHAN DIMULAI ---
+            addManualChapterBtn.disabled = false; // Selalu bisa menambah manual
+            addAiChapterBtn.disabled = false; // Selalu bisa menambah via AI
+            // --- AKHIR PERUBAHAN ---
             removeChapterBtn.disabled = ebookState.chapters.length < 1;
         }
 
+        /**
+         * Membuat tombol untuk menyisipkan bab baru di antara bab yang ada.
+         * @param {number} index - Posisi di mana bab baru akan disisipkan.
+         */
         function createInsertButton(index) {
             return `
                 <div class="my-4 py-2 text-center border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-all">
@@ -777,6 +592,10 @@
             `;
         }
 
+        /**
+         * Menyisipkan bab kosong baru secara manual ke dalam array state.
+         * @param {number} index - Posisi (indeks array) untuk menyisipkan bab baru.
+         */
         function insertManualChapter(index) {
             if (index < 0 || index > ebookState.chapters.length) {
                 console.error("Indeks penyisipan tidak valid:", index);
@@ -785,18 +604,21 @@
             
             const newChapter = {
                 title: 'Bab Baru (Klik untuk Mengubah Judul)',
-                content: '',
-                loading: false,
-                images: [] // Inisialisasi array images
+                content: '', // Konten kosong, akan memicu tombol "Buat Konten"
+                loading: false
             };
 
-            ebookState.chapters.splice(index, 0, newChapter);
+            ebookState.chapters.splice(index, 0, newChapter); // Sisipkan di indeks
             
-            renderChaptersUI();
-            updateChapterButtons();
-            saveState();
+            renderChaptersUI(); // Render ulang seluruh daftar bab
+            updateChapterButtons(); // Perbarui status tombol
+            saveState(); // Simpan perubahan
         }
 
+        /**
+         * Menghapus bab tertentu berdasarkan indeksnya.
+         * @param {number} index - Indeks bab yang akan dihapus.
+         */
         function removeChapter(index) {
             const chapterTitle = ebookState.chapters[index]?.title || "Bab ini";
             customConfirm(`Apakah Anda yakin ingin menghapus "${chapterTitle}"?`, () => {
@@ -805,14 +627,18 @@
                     return;
                 }
                 
-                ebookState.chapters.splice(index, 1);
+                ebookState.chapters.splice(index, 1); // Hapus 1 elemen di indeks
                 
-                renderChaptersUI();
-                updateChapterButtons();
-                saveState();
+                renderChaptersUI(); // Render ulang
+                updateChapterButtons(); // Perbarui status tombol
+                saveState(); // Simpan
             });
         }
-       
+
+        // --- FUNGSI BARU DIMULAI ---
+        /**
+         * Memanggil AI untuk membuat SATU judul bab baru dan menambahkannya ke akhir daftar.
+         */
         async function generateSingleChapterTitleAI() {
             const problem = problemInput.value.trim();
             if (!problem) {
@@ -820,9 +646,10 @@
                 return;
             }
 
+            // Tampilkan status loading di tombol
             addAiChapterBtn.disabled = true;
             const originalBtnHtml = addAiChapterBtn.innerHTML;
-            addAiChapterBtn.innerHTML = `<div class="loader !w-5 !h-5 !border-t-blue-600" style="width: 20px; height: 20px; border-top-color: #2563eb;"></div>`;
+            addAiChapterBtn.innerHTML = `<div class="loader !w-5 !h-5 !border-t-blue-600" style="width: 20px; height: 20px; border-top-color: #2563eb;"></div>`; // Loader kustom
 
             const existingTitles = ebookState.chapters.map(c => c.title).join(', ');
             const prompt = `Untuk ebook tentang masalah "${problem}", dengan bab yang sudah ada: "${existingTitles}", buatkan SATU judul bab baru yang unik dan belum ada di daftar. Jawab HANYA dengan teks judulnya saja.`;
@@ -831,24 +658,26 @@
             if (newTitle && typeof newTitle === 'string' && !newTitle.includes('<p class="text-red-500">')) {
                 ebookState.chapters.push({
                     title: newTitle.replace(/"/g, '').trim(),
-                    content: '',
-                    loading: false,
-                    images: [] // Inisialisasi array images
+                    content: '', // Konten kosong, akan memicu tombol "Buat Konten"
+                    loading: false
                 });
                 renderChaptersUI();
                 saveState();
-            } else if (!newTitle.includes('<p class="text-red-500">')) {
+            } else if (!newTitle.includes('<p class="text-red-500">')) { // Jangan tampilkan alert jika error API (karena callGeminiAPI sudah)
                 customAlert("Gagal membuat judul bab baru. Silakan coba lagi.");
             }
 
+            // Kembalikan tombol ke status normal
             addAiChapterBtn.disabled = false;
             addAiChapterBtn.innerHTML = originalBtnHtml;
             updateChapterButtons();
         }
+        // --- FUNGSI BARU BERAKHIR ---
 
 
         function handleRemoveChapter() {
             if(ebookState.chapters.length > 0) {
+                // Fungsi ini (Tombol Hapus Bab) sekarang menghapus bab *terakhir*
                 customConfirm("Apakah Anda yakin ingin menghapus bab terakhir?", () => {
                     ebookState.chapters.pop();
                     renderChaptersUI();
@@ -861,16 +690,25 @@
         async function generateSummary(problem) {
             updateUIState();
             showLoader(summarySection);
-            
+
+            // Helper function untuk menghapus tag HTML dari teks untuk prompt AI
+            const stripHtml = (html) => {
+                if (!html) return "";
+                let doc = new DOMParser().parseFromString(html, 'text/html');
+                return doc.body.textContent || "";
+            };
+
+            // Kumpulkan semua konten yang ada untuk konteks prompt
             let introContext = ebookState.introduction ? `Pendahuluan:\n${stripHtml(ebookState.introduction)}` : '';
             
             let chapterContext = ebookState.chapters
-                .filter(c => c.content && !c.loading)
+                .filter(c => c.content && !c.loading) // Hanya ambil bab yang sudah ada isinya
                 .map((c, i) => `Isi Bab ${i + 1} (${c.title}):\n${stripHtml(c.content)}`)
                 .join('\n\n');
 
             let fullContext = `Masalah Utama Ebook: "${problem}"\n\n${introContext}\n\n${chapterContext}`;
-            
+
+            // Buat prompt baru yang lebih kontekstual
             const prompt = `Berdasarkan konteks ebook berikut, buatlah "Ringkasan Poin Kunci" yang merangkum semua poin penting dari pendahuluan dan isi bab yang ada. Sajikan dalam format markdown dengan bullet points (*).\n\n--- Konteks Ebook ---\n${fullContext}\n\n--- Ringkasan Poin Kunci ---`;
             
             const text = await callGeminiAPI(prompt);
@@ -879,6 +717,7 @@
             saveState();
         }
         
+        // --- PENAMBAHAN FUNGSI YANG HILANG ---
         async function generateConclusion(problem) {
             updateUIState();
             showLoader(conclusionSection);
@@ -888,13 +727,14 @@
             renderConclusion();
             saveState();
         }
+        // --- AKHIR PENAMBAHAN ---
 
         async function generateChapterContent(problem, index) {
             const chapter = ebookState.chapters[index];
             if (!chapter || chapter.loading) return;
 
             ebookState.chapters[index].loading = true;
-            renderChaptersUI();
+            renderChaptersUI(); // Tampilkan loader di bab spesifik
 
             const prompt = `Untuk ebook tentang masalah "${problem}", tuliskan konten HANYA UNTUK bab berjudul "${chapter.title}". Jangan membuat judul bab baru atau sub-judul lain dalam jawaban Anda. Fokus hanya pada isi konten untuk judul yang diberikan. Konten harus praktis, berisi langkah-langkah konkret, dan terdiri dari beberapa paragraf.`;
             const content = await callGeminiAPI(prompt);
@@ -905,14 +745,14 @@
             renderChaptersUI();
             saveState();
 
+            // Jika ringkasan sudah pernah dibuat, perbarui secara otomatis
             if (ebookState.summary) {
                 console.log("Memperbarui ringkasan setelah konten bab baru...");
-                showLoader(summarySection);
+                showLoader(summarySection); // Tampilkan loader di bagian ringkasan
+                // Panggil generateSummary lagi untuk memperbarui dengan konten baru
                 generateSummary(problemInput.value.trim()); 
             }
         }
-
-        // --- Fungsi Render Tampilan ---
 
         function renderTitle() {
             if (!ebookState.title) return;
@@ -952,14 +792,18 @@
         }
 
         function renderChaptersUI() {
+            // Hapus konten lama
+            chaptersSection.innerHTML = ''; 
+            
             if (ebookState.chapters.length === 0) {
                 chaptersSection.innerHTML = createInsertButton(0);
                 return;
             }
-            let chaptersHtml = '';
+            
             const problem = problemInput.value.trim().replace(/'/g, "\\'");
 
-            chaptersHtml += createInsertButton(0);
+            // Tambahkan tombol sisipkan paling atas
+            chaptersSection.insertAdjacentHTML('beforeend', createInsertButton(0));
 
             ebookState.chapters.forEach((chapter, index) => {
                 const buttonHtml = `<button onclick="window.generateChapterContent('${problem}', ${index})" class="mx-auto bg-gray-200 text-gray-700 font-semibold py-1 px-3 rounded-lg hover:bg-gray-300 transition-all duration-200 ease-in-out flex items-center justify-center gap-1 text-sm">Buat Konten untuk Bab Ini</button>`;
@@ -971,66 +815,38 @@
                     contentHtml = chapter.content || buttonHtml;
                 }
 
-                // Buat HTML untuk gambar
-                let imagesTopHtml = '';
-                let imagesBottomHtml = '';
-                if (chapter.images && chapter.images.length > 0) {
-                    chapter.images.forEach(img => {
-                        const moveIcon = (img.position === 'top') ? 
-                            `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>` : // Panah Bawah
-                            `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`; // Panah Atas
-                        
-                        const imageHtml = `
-                            <div class="chapter-image-container group">
-                                <img src="${img.base64}" alt="${img.prompt || 'Gambar buatan AI'}" />
-                                <div class="chapter-image-toolbar">
-                                    <button onclick="window.moveImage(${index}, '${img.id}')" title="Pindahkan Posisi">${moveIcon}</button>
-                                    <button onclick="window.deleteImage(${index}, '${img.id}')" title="Hapus Gambar" class="!bg-red-200 text-red-700 hover:!bg-red-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        if (img.position === 'top') {
-                            imagesTopHtml += imageHtml;
-                        } else {
-                            imagesBottomHtml += imageHtml;
-                        }
-                    });
-                }
-
-                // Gabungkan semua
-                chaptersHtml += `
-                    <div id="chapter-block-${index}" class="mt-6 page-break pdf-render-section">
-                        <div class="relative group" id="chapter-group-${index}"> <!-- TAMBAHKAN ID SEBAGAI TARGET -->
-                            <div id="chapter-images-top-${index}" class="chapter-images">${imagesTopHtml}</div>
-                             <h2 contenteditable="true" data-index="${index}" class="chapter-title text-xl md:text-2xl font-bold border-b pb-2 mb-3">Bab ${index + 1}: ${chapter.title}</h2>
-                            <div id="chapter-content-${index}" contenteditable="${!chapter.loading}" data-index="${index}" class="chapter-content pt-4 min-h-[50px]">
-                                ${contentHtml}
-                            </div>
-                            <div id="chapter-images-bottom-${index}" class="chapter-images">${imagesBottomHtml}</div>
-                            <!-- ${chapter.content && !chapter.loading ? createActionButtons('chapter', index).outerHTML : ''} --> <!-- HAPUS BARIS INI -->
+                // 1. Buat elemen blok bab
+                const chapterBlock = document.createElement('div');
+                chapterBlock.id = `chapter-block-${index}`;
+                chapterBlock.className = 'mt-6 page-break pdf-render-section';
+                
+                // 2. Siapkan HTML internalnya
+                const innerHtml = `
+                    <div class="relative group">
+                         <h2 contenteditable="true" data-index="${index}" class="chapter-title text-xl md:text-2xl font-bold border-b pb-2 mb-3">Bab ${index + 1}: ${chapter.title}</h2>
+                        <div id="chapter-content-${index}" contenteditable="${!chapter.loading}" data-index="${index}" class="chapter-content pt-4 min-h-[50px]">
+                            ${contentHtml}
                         </div>
+                        <!-- Tombol aksi akan disisipkan di sini oleh JS -->
                     </div>
                 `;
-                chaptersHtml += createInsertButton(index + 1);
-            });
-            chaptersSection.innerHTML = chaptersHtml;
+                chapterBlock.innerHTML = innerHtml;
 
-            // --- PERBAIKAN DIMULAI ---
-            // Loop lagi SETELAH HTML dirender untuk memasukkan Tombol Aksi sebagai DOM node
-            // Ini akan mempertahankan semua event listener (onclick).
-            ebookState.chapters.forEach((chapter, index) => {
-                if (chapter.content && !chapter.loading) {
-                    const chapterGroup = document.getElementById(`chapter-group-${index}`);
-                    if (chapterGroup) {
-                        // Gunakan .prepend() agar tombol-tombol (yang posisinya absolut) berada di dalam div 'group'
-                        chapterGroup.prepend(createActionButtons('chapter', index));
-                    }
+                // 3. Buat tombol aksi sebagai DOM Node (BUKAN string)
+                if (!chapter.loading) {
+                    const actionButtonsNode = createActionButtons('chapter', index);
+                    // 4. Sisipkan node tombol aksi ke tempatnya
+                    chapterBlock.querySelector('.relative.group').prepend(actionButtonsNode);
                 }
+                
+                // 5. Tambahkan blok bab yang sudah jadi ke DOM
+                chaptersSection.appendChild(chapterBlock);
+                
+                // 6. Tambahkan tombol sisipkan *setelah* bab ini
+                chaptersSection.insertAdjacentHTML('beforeend', createInsertButton(index + 1));
             });
-            // --- PERBAIKAN BERAKHIR ---
             
+            // Pasang ulang event listener untuk 'blur' (edit di tempat)
             chaptersSection.querySelectorAll('.chapter-title').forEach(el => {
                 el.addEventListener('blur', (e) => {
                     const idx = e.target.dataset.index;
@@ -1124,39 +940,16 @@
                     }
                     return false;
                 };
-
-                const addImageToPdf = (imgElement) => {
-                    try {
-                        const imgData = imgElement.src; // base64 data
-                        const imgProps = pdf.getImageProperties(imgData);
-                        const imgWidth = imgProps.width;
-                        const imgHeight = imgProps.height;
-                        const ratio = imgWidth / imgHeight;
-                        
-                        let renderWidth = usableWidth;
-                        let renderHeight = renderWidth / ratio;
-
-                        checkNewPage(renderHeight + 5); // +5 untuk margin bawah
-                        pdf.addImage(imgData, 'PNG', margin, cursorY, renderWidth, renderHeight);
-                        cursorY += renderHeight + 5;
-                    } catch (e) {
-                        console.error("Error menambah gambar ke PDF:", e);
-                    }
-                };
                 
                 const renderNode = (node) => {
                     const style = window.getComputedStyle(node);
                     const tagName = node.tagName.toLowerCase();
                     
                     if (style.display === 'none' || node.classList.contains('action-buttons') || node.classList.contains('loader') || (node.textContent.trim() === '' && node.children.length === 0)) {
-                        return;
-                    }
-                    
-                    if (tagName === 'img') {
-                        addImageToPdf(node);
-                        return;
+                        return; // Lewati tombol aksi, loader, dan elemen kosong
                     }
 
+                    // Hanya proses node teks dan elemen formatting dasar
                     if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
                         let text = node.textContent.trim();
                         let parentStyle = window.getComputedStyle(node.parentElement);
@@ -1198,63 +991,69 @@
                                 break;
                         }
 
-                        if (node.textContent.trim() || tagName === 'img' || (node.children && Array.from(node.children).some(child => child.tagName.toLowerCase() === 'img'))) {
+                        if (node.textContent.trim()) {
                              pdf.setFontSize(fontSize).setFont('helvetica', fontStyle);
                              let text = node.textContent.trim();
                              if(isList) text = `• ${text}`;
 
-                             if (text) {
-                                const lines = pdf.splitTextToSize(text, usableWidth - (isList ? 5 : 0));
-                                checkNewPage(lines.length * fontSize * 0.352778 * 1.2 + spaceAfter);
-                                lines.forEach((line, i) => {
-                                    checkNewPage(fontSize * 0.352778 * 1.2);
-                                    pdf.text(line, margin + (isList ? 5 : 0), cursorY);
-                                    cursorY += fontSize * 0.352778 * 1.2;
-                                });
-                                cursorY += spaceAfter;
-                             }
-                             // Proses anak-anaknya (misal, jika ada gambar di dalam)
-                             Array.from(node.childNodes).forEach(child => renderNode(child));
+                             const lines = pdf.splitTextToSize(text, usableWidth - (isList ? 5 : 0));
+                             
+                             checkNewPage(lines.length * fontSize * 0.352778 * 1.2 + spaceAfter);
+
+                             lines.forEach((line, i) => {
+                                 checkNewPage(fontSize * 0.352778 * 1.2);
+                                 pdf.text(line, margin + (isList ? 5 : 0), cursorY);
+                                 cursorY += fontSize * 0.352778 * 1.2;
+                             });
+                             cursorY += spaceAfter;
                         }
                     }
                 };
 
                 const traverseNodes = (element) => {
+                    // --- FIX START ---
+                    // Jika ini bukan element node (misalnya text node), lewati.
+                    // Text node akan diproses di dalam renderNode saat elemen induknya (spt P, H1) ditemukan.
+                    if (element.nodeType !== Node.ELEMENT_NODE) {
+                        return;
+                    }
+                    // --- FIX END ---
+                    
+                    // Hanya render elemen yang terlihat dan relevan
                      if (element.style.display === 'none' || element.classList.contains('action-buttons') || element.classList.contains('loader')) {
                         return;
                     }
                     
                     const tagName = element.tagName ? element.tagName.toLowerCase() : '';
-                    // 'img' ditambahkan ke tag yang diizinkan
-                    const allowedTags = ['h1', 'h2', 'p', 'ul', 'li', 'strong', 'img', 'div']; 
+                    const allowedTags = ['h1', 'h2', 'p', 'li', 'strong']; // <-- 'ul' DIHAPUS DARI SINI
                     
-                    if (tagName === 'img') {
-                        renderNode(element);
-                    } else if (allowedTags.includes(tagName) && (element.textContent.trim() || element.querySelector('img'))) {
-                         // Jika h1/h2/p/li, render teksnya
-                         if (['h1', 'h2', 'p', 'li', 'strong'].includes(tagName)) {
-                            renderNode(element);
-                         } else {
-                           // Jika 'div' atau 'ul', proses anak-anaknya
-                            Array.from(element.childNodes).forEach(child => traverseNodes(child));
-                         }
+                    if (allowedTags.includes(tagName) && element.textContent.trim()) {
+                         renderNode(element);
                     } else if (element.childNodes && element.childNodes.length > 0) {
+                        // Jika bukan tag yang diizinkan, proses anaknya
                         Array.from(element.childNodes).forEach(child => traverseNodes(child));
                     }
                 };
 
                 const sectionsToRender = [
                     titleSection, introSection, tocSection, ...Array.from(chaptersSection.children), summarySection, conclusionSection, authorSection
-                ].filter(el => el && el.offsetHeight > 0 && el.innerText.trim() !== '' && !el.querySelector('button.text-indigo-600')); // Filter tombol sisipkan
+                ].filter(el => el && el.offsetHeight > 0 && el.innerText.trim() !== '' && !el.classList.contains('border-dashed')); // Filter tombol sisipkan
 
                 let isFirstPage = true;
                 for(const section of sectionsToRender) {
+                    // Lewati tombol "Sisipkan Bab Baru"
                     if(section.querySelector('button.text-indigo-600')) continue; 
 
-                    if (!isFirstPage && section.classList.contains('page-break')) {
+                    // --- PERBAIKAN PAGE BREAK ---
+                    // Cek section itu sendiri ATAU *cari* elemen .page-break di dalamnya
+                    const needsPageBreak = section.classList.contains('page-break') || 
+                                           section.querySelector('.page-break'); // <-- DIGANTI DARI firstElementChild
+
+                    if (!isFirstPage && needsPageBreak) {
                          pdf.addPage();
                          cursorY = margin;
                     }
+                    // --- AKHIR PERBAIKAN ---
                     
                     traverseNodes(section);
                     isFirstPage = false;
@@ -1286,134 +1085,12 @@
             });
         }
         
-        // --- Fungsi Modal Gambar (BARU) ---
-
-        function openImageModal(index) {
-            const chapter = ebookState.chapters[index];
-            if (!chapter) return;
-
-            currentImageGenChapterIndex = index;
-            generatedImageData = null;
-            
-            // Ambil teks dari content editable, bersihkan HTML
-            const contentElement = document.getElementById(`chapter-content-${index}`);
-            let promptText = stripHtml(chapter.content);
-            if (!promptText && contentElement) {
-                promptText = contentElement.innerText;
-            }
-            if (!promptText) {
-                promptText = chapter.title; // Fallback ke judul jika konten kosong
-            }
-
-            imgGenPrompt.value = promptText;
-            
-            // Reset modal state
-            imgGenPreviewContainer.classList.add('hidden');
-            imgGenLoader.classList.add('hidden');
-            imgGenPreview.classList.add('hidden');
-            imgGenError.textContent = '';
-            imgGenBtnInsert.classList.add('hidden');
-            imgGenBtnInsert.disabled = true;
-            imgGenBtnGenerate.disabled = false;
-            
-            imgGenModalOverlay.classList.add('flex');
-        }
-
-        function closeImageModal() {
-            imgGenModalOverlay.classList.remove('flex');
-            currentImageGenChapterIndex = -1;
-            generatedImageData = null;
-        }
-
-        async function handleGenerateImage() {
-            const promptText = imgGenPrompt.value.trim();
-            if (!promptText) {
-                customAlert("Prompt tidak boleh kosong.");
-                return;
-            }
-            
-            const selectedStyle = document.querySelector('input[name="image-style"]:checked').value;
-            const fullPrompt = `Sebuah ${selectedStyle} dari: ${promptText}`;
-
-            imgGenPreviewContainer.classList.remove('hidden');
-            imgGenLoader.classList.remove('hidden');
-            imgGenPreview.classList.add('hidden');
-            imgGenError.textContent = '';
-            imgGenBtnGenerate.disabled = true;
-            imgGenBtnInsert.classList.add('hidden');
-            imgGenBtnInsert.disabled = true;
-
-            const base64Data = await callImageGenAPI(fullPrompt);
-
-            imgGenLoader.classList.add('hidden');
-
-            if (base64Data) {
-                generatedImageData = base64Data;
-                imgGenPreview.src = base64Data;
-                imgGenPreview.classList.remove('hidden');
-                imgGenBtnInsert.classList.remove('hidden');
-                imgGenBtnInsert.disabled = false;
-            } else {
-                imgGenError.textContent = 'Gagal membuat gambar. Silakan coba lagi.';
-            }
-            imgGenBtnGenerate.disabled = false;
-        }
-
-        function handleInsertImage() {
-            if (!generatedImageData || currentImageGenChapterIndex === -1) return;
-
-            const position = document.querySelector('input[name="image-position"]:checked').value;
-            const prompt = imgGenPrompt.value;
-            
-            const newImage = {
-                id: crypto.randomUUID(),
-                base64: generatedImageData,
-                position: position,
-                prompt: prompt
-            };
-
-            const chapter = ebookState.chapters[currentImageGenChapterIndex];
-            if (!chapter.images) {
-                chapter.images = []; // Inisialisasi jika belum ada
-            }
-            chapter.images.push(newImage);
-
-            renderChaptersUI();
-            saveState();
-            closeImageModal();
-        }
-
-        function deleteImage(chapterIndex, imageId) {
-            const chapter = ebookState.chapters[chapterIndex];
-            if (!chapter || !chapter.images) return;
-            
-            chapter.images = chapter.images.filter(img => img.id !== imageId);
-            renderChaptersUI();
-            saveState();
-        }
-
-        function moveImage(chapterIndex, imageId) {
-            const chapter = ebookState.chapters[chapterIndex];
-            if (!chapter || !chapter.images) return;
-
-            const image = chapter.images.find(img => img.id === imageId);
-            if (image) {
-                image.position = (image.position === 'top') ? 'bottom' : 'top';
-            }
-            renderChaptersUI();
-            saveState();
-        }
-
-        // --- Expose Fungsi & Event Listeners ---
-        
+        // Expose functions to global scope
         window.generateChapterContent = generateChapterContent;
         window.insertManualChapter = insertManualChapter;
         window.removeChapter = removeChapter;
-        window.openImageModal = openImageModal; // Expose
-        window.deleteImage = deleteImage;       // Expose
-        window.moveImage = moveImage;         // Expose
         
-        // Event Listeners Utama
+        // Main Event Listeners
         generateTitleBtn.addEventListener('click', () => { const p = problemInput.value.trim(); if(p) generateTitle(p); else customAlert("Masukkan masalah dulu."); });
         generateIntroBtn.addEventListener('click', () => { const p = problemInput.value.trim(); if(p) generateIntro(p); else customAlert("Masukkan masalah dulu."); });
         generateTitlesBtn.addEventListener('click', () => { 
@@ -1422,11 +1099,14 @@
             if(p && c > 0) generateChapterTitles(p, c); else customAlert("Masukkan masalah dan jumlah bab yang valid."); 
         });
         
+        // --- PERUBAHAN DIMULAI ---
         addManualChapterBtn.addEventListener('click', () => {
+            // Selalu tambahkan bab kosong manual di AKHIR
             insertManualChapter(ebookState.chapters.length);
         });
         
         addAiChapterBtn.addEventListener('click', generateSingleChapterTitleAI);
+        // --- AKHIR PERUBAHAN ---
         
         removeChapterBtn.addEventListener('click', handleRemoveChapter);
         generateSummaryBtn.addEventListener('click', () => { const p = problemInput.value.trim(); if(p) generateSummary(p); else customAlert("Masukkan masalah dulu."); });
@@ -1441,11 +1121,6 @@
             eyeOpenIcon.classList.toggle('hidden', isPassword);
             eyeClosedIcon.classList.toggle('hidden', !isPassword);
         });
-
-        // Event Listeners Modal Gambar
-        imgGenBtnClose.addEventListener('click', closeImageModal);
-        imgGenBtnGenerate.addEventListener('click', handleGenerateImage);
-        imgGenBtnInsert.addEventListener('click', handleInsertImage);
 
         // Auto-saving listeners
         problemInput.addEventListener('blur', saveState);
@@ -1465,5 +1140,13 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
